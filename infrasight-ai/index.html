@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="InfraSight AI is a browser-based computer vision dashboard for transportation, aviation, and smart infrastructure." />
+  <title>InfraSight AI</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.2/dist/coco-ssd.min.js" defer></script>
+  <script type="module" src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="InfraSight AI home">
+      <span class="brand-mark">IS</span>
+      <span>InfraSight AI</span>
+    </a>
+    <div id="modelStatus" class="status-pill" role="status" aria-live="polite">
+      <span class="status-dot"></span>
+      <span>Loading model</span>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Browser-based deep learning</p>
+        <h1>Computer vision for smarter infrastructure.</h1>
+        <p class="hero-copy">
+          Detect vehicles, people, aircraft, and other objects directly in the browser using TensorFlow.js and COCO-SSD.
+          Explore scene-level analytics without uploading media to an application server.
+        </p>
+      </div>
+      <div class="hero-tags" aria-label="Project technologies">
+        <span>TensorFlow.js</span><span>COCO-SSD</span><span>JavaScript</span><span>Canvas API</span>
+      </div>
+    </section>
+
+    <section class="workspace" aria-label="Computer vision workspace">
+      <article class="panel media-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="section-kicker">Live inference</p>
+            <h2>Analyze a scene</h2>
+          </div>
+          <div class="controls">
+            <label class="button primary" for="imageUpload">Upload image</label>
+            <input id="imageUpload" type="file" accept="image/*" hidden />
+            <button id="cameraButton" class="button secondary" type="button">Start camera</button>
+          </div>
+        </div>
+
+        <div id="stage" class="stage" data-empty="true">
+          <div id="emptyState" class="empty-state">
+            <div class="empty-icon" aria-hidden="true">◎</div>
+            <h3>Add a transportation or infrastructure image</h3>
+            <p>Try a city street, airport apron, parking area, transit hub, or other real-world scene.</p>
+          </div>
+          <img id="sourceImage" alt="Selected scene" hidden />
+          <video id="camera" autoplay muted playsinline hidden></video>
+          <canvas id="canvas" aria-label="Detection output" hidden></canvas>
+        </div>
+
+        <div class="threshold-control">
+          <label for="confidenceRange">Minimum confidence <strong id="confidenceValue">55%</strong></label>
+          <input id="confidenceRange" type="range" min="40" max="90" value="55" step="5" />
+        </div>
+      </article>
+
+      <aside class="panel analytics-panel">
+        <div class="panel-heading compact">
+          <div>
+            <p class="section-kicker">Scene analytics</p>
+            <h2>What the model sees</h2>
+          </div>
+        </div>
+
+        <div class="metric-grid">
+          <div class="metric-card"><span>Objects</span><strong id="objectCount">—</strong></div>
+          <div class="metric-card"><span>Vehicles</span><strong id="vehicleCount">—</strong></div>
+          <div class="metric-card"><span>People</span><strong id="personCount">—</strong></div>
+          <div class="metric-card"><span>Avg. confidence</span><strong id="avgConfidence">—</strong></div>
+        </div>
+
+        <div class="insight-card">
+          <span class="insight-label">Scene summary</span>
+          <p id="sceneSummary">Run inference to generate a scene summary.</p>
+        </div>
+
+        <div class="detection-section">
+          <div class="list-heading">
+            <h3>Detections</h3>
+            <span id="topClass">No data</span>
+          </div>
+          <div id="detectionList" class="detection-list">
+            <p class="muted">Detected objects will appear here.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="about-grid">
+      <article class="panel about-card">
+        <p class="section-kicker">Architecture</p>
+        <h2>End-to-end browser inference</h2>
+        <ol class="pipeline">
+          <li><span>01</span><div><strong>Input</strong><p>Image upload or webcam frame.</p></div></li>
+          <li><span>02</span><div><strong>Deep-learning inference</strong><p>COCO-SSD with a MobileNet v2 backbone runs through TensorFlow.js.</p></div></li>
+          <li><span>03</span><div><strong>Post-processing</strong><p>Confidence filtering, category grouping, and scene aggregation.</p></div></li>
+          <li><span>04</span><div><strong>Visualization</strong><p>Bounding boxes, labels, confidence scores, and dashboard metrics.</p></div></li>
+        </ol>
+      </article>
+
+      <article class="panel about-card">
+        <p class="section-kicker">Engineering choices</p>
+        <h2>Designed for zero-setup demos</h2>
+        <ul class="feature-list">
+          <li>No backend or local installation required</li>
+          <li>Media stays client-side during application processing</li>
+          <li>Responsive Canvas rendering with labeled detections</li>
+          <li>Image and live-camera inference modes</li>
+          <li>Configurable confidence threshold</li>
+          <li>Automated unit tests through GitHub Actions</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>InfraSight AI · Computer vision for transportation, aviation, and intelligent infrastructure</p>
+  </footer>
+</body>
+</html>
